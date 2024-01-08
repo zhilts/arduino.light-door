@@ -21,13 +21,13 @@ void Serial_println(const String &str) {
     }
 }
 
-void servoSet(int value, bool tornOff = true) {
+void servoSet(int value, bool turnOff = true) {
     Serial_println("Servo set: " + String(value));
     digitalWrite(MOSFET_PIN, 1);
     delay(100);
     myservo.write(value);
     delay(1500);
-    if (tornOff) {
+    if (turnOff) {
         digitalWrite(MOSFET_PIN, 0);
     }
 }
