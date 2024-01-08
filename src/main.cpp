@@ -82,10 +82,8 @@ int getLight() {
 
 void closeDoor() {
     Serial_println("Closing");
-//    digitalWrite(LED_PIN, HIGH);
     servoSet(SERVO_MAX, false);
     servoSet(SERVO_MIN);
-//    digitalWrite(LED_PIN, LOW);
 }
 
 void loop() {
