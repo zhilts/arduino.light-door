@@ -40,7 +40,7 @@ void setup() {
     Serial_println("setup");
     pinMode(LIGHT_PIN, INPUT);
     pinMode(MOSFET_PIN, OUTPUT);
-    digitalWrite(MOSFET_PIN, 0);
+    digitalWrite(MOSFET_PIN, LOW);
     pinMode(SERVO_PIN, OUTPUT);
     myservo.attach(SERVO_PIN);
     servoSet(SERVO_MIN);
