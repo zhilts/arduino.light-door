@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include <Servo.h>
 #include "Settings.h"
+#include "LowPower.h"
 
 Servo myservo;
 const int numReadings = 10;
@@ -92,7 +93,7 @@ void closeDoor() {
 }
 
 void loop() {
-    delay(1000);
+    LowPower.powerDown(SLEEP_1S, ADC_OFF, BOD_OFF);
     int newLight = getLight();
 
     Serial_println(String(newLight));
