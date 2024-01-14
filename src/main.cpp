@@ -43,13 +43,18 @@ void setup() {
     pinMode(SERVO_PIN, OUTPUT);
     myservo.attach(SERVO_PIN);
     servoSet(SERVO_MIN);
+    digitalWrite(LIGHT_POWER_PIN, LOW);
+    delayMicroseconds(15);
     for (int &reading: readings) {
         reading = 0;
     }
 }
 
 int getLight() {
+    digitalWrite(LIGHT_POWER_PIN, HIGH);
+    delayMicroseconds(15);
     int sensor = analogRead(LIGHT_PIN);
+    digitalWrite(LIGHT_POWER_PIN, LOW);
     if (DEBUG_LED) {
         if (sensor > LIGHT_LIMIT) {
             digitalWrite(LED_PIN, HIGH);
