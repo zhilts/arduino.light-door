@@ -24,12 +24,12 @@ void Serial_println(const String &str) {
 
 void servoSet(int value, bool turnOff = true) {
     Serial_println("Servo set: " + String(value));
-    digitalWrite(MOSFET_PIN, 1);
-    delay(100);
+    digitalWrite(MOSFET_PIN, HIGH);
+    delay(1);
     myservo.write(value);
-    delay(1500);
+    delay(1000);
     if (turnOff) {
-        digitalWrite(MOSFET_PIN, 0);
+        digitalWrite(MOSFET_PIN, LOW);
     }
 }
 
