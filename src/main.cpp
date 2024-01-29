@@ -9,6 +9,7 @@ int readings[numReadings];
 int readIndex = 0;
 int total = 0;
 int lastLight = 0;
+int lastServo = 0;
 
 void Serial_print(const String &str) {
     if (USE_SERIAL) {
@@ -22,15 +23,32 @@ void Serial_println(const String &str) {
     }
 }
 
-void servoSet(int value, bool turnOff = true) {
+void servoSet(int value) {
     Serial_println("Servo set: " + String(value));
-    digitalWrite(MOSFET_PIN, HIGH);
-    delay(1);
     myservo.write(value);
-    delay(1000);
-    if (turnOff) {
-        digitalWrite(MOSFET_PIN, LOW);
-    }
+    lastServo = value;
+}
+
+void slowServoSet(int value) {
+    int _lastValue = lastServo;
+    int step = (value > _lastValue ? 1 : -1) * SERVO_SLOW_STEP;
+    int bottom = min(_lastValue, value);
+    int top = max(_lastValue, value);
+    int pos = _lastValue;
+    do {
+        pos += step;
+        servoSet(pos);
+        delay(SERVO_SLOW_DELAY);
+    } while (pos > bottom && pos < top);
+}
+
+void closeDoor() {
+    Serial_println("Closing");
+    digitalWrite(MOSFET_PIN, HIGH);
+    slowServoSet(SERVO_MAX);
+    slowServoSet(SERVO_MIN);
+    delay(500);
+    digitalWrite(MOSFET_PIN, LOW);
 }
 
 void setup() {
@@ -49,6 +67,7 @@ void setup() {
     for (int &reading: readings) {
         reading = 0;
     }
+    closeDoor();
 }
 
 int getLight() {
@@ -86,14 +105,12 @@ int getLight() {
     }
 }
 
-void closeDoor() {
-    Serial_println("Closing");
-    servoSet(SERVO_MAX, false);
-    servoSet(SERVO_MIN);
-}
-
 void loop() {
-    LowPower.powerDown(SLEEP_1S, ADC_OFF, BOD_OFF);
+    if (USE_SERIAL) {
+        delay(1000);
+    } else {
+        LowPower.powerDown(SLEEP_1S, ADC_OFF, BOD_OFF);
+    }
     int newLight = getLight();
 
     Serial_println(String(newLight));
