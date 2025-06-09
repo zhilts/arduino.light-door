@@ -52,9 +52,7 @@ void closeDoor() {
 }
 
 void setup() {
-    if (USE_SERIAL) {
-        Serial.begin(9600);
-    }
+    Serial.begin(9600);
     Serial_println("setup");
     pinMode(LIGHT_PIN, INPUT);
     pinMode(MOSFET_PIN, OUTPUT);

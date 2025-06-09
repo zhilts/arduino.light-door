@@ -9,8 +9,8 @@
 #define SERVO_PIN 5
 #define SERVO_MIN 10
 #define SERVO_MAX 170
-#define SERVO_SLOW_STEP 1
-#define SERVO_SLOW_DELAY 20
+#define SERVO_SLOW_STEP 160
+#define SERVO_SLOW_DELAY 2000
 
 #define LIGHT_POWER_PIN 3
 #define LIGHT_PIN A4
